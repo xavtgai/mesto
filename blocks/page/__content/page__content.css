@@ -5,3 +5,16 @@
     padding: 45px 200px 60px;
     box-sizing: border-box;
 }
+
+@media screen and (max-width: 767px) {
+    .page__content {
+        max-width: 553px;
+        padding: 0 19px 36px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .page__content {
+        max-width: 320px;
+    }
+}
