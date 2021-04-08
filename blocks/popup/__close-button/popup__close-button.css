@@ -7,3 +7,14 @@
     transform: rotate(45deg);
     cursor: pointer;
 }
+
+.popup__close-button:hover {
+    opacity: .6;
+}
+
+@media screen and (max-width:600px) {
+    .popup__close-button {
+        right: 0px;
+        top: -40px;
+    }
+}

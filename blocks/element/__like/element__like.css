@@ -1,8 +1,18 @@
 .element__like {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 19px;
     background-image: url(../../../images/like.svg);
     border: none;
     background-repeat: no-repeat;
-    margin-left: 113px;
+    background-color: transparent;
+}
+
+.element__like:hover {
+    cursor: pointer;
+}
+
+.element__like:active {
+    cursor: pointer;
+    background-image: url(../../../images/chosen_like.svg);
+    border: none;
 }

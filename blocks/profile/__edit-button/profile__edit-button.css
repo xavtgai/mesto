@@ -8,3 +8,8 @@
     background-color: black;
     border: none;
 }
+
+.profile__edit-button:hover {
+    opacity: .6;
+    cursor: pointer;
+}

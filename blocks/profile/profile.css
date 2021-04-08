@@ -5,3 +5,10 @@
     display: grid;
     grid-template-columns: 150px 336px auto;
 }
+
+@media screen and (max-width: 900px) {
+    .profile {
+        display: flex;
+        flex-direction: column;
+    }
+}
