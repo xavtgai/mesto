@@ -24,7 +24,7 @@ let popup__overlay = document.querySelector('.popup__overlay');
 
 editButton.addEventListener('click', function() { openPopup(); })
 closeButton.addEventListener('click', function() { closePopup(); })
-popup__overlay.addEventListener('click', function() { closePopup(); })
+    //popup__overlay.addEventListener('click', function() { closePopup(); })
 
 
 function formSubmitHandler(evt) {
