@@ -10,6 +10,7 @@
     cursor: pointer;
     transition: linear .3s;
     margin-top: 48px;
+    border: none;
 }
 
 .popup__save:hover {

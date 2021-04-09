@@ -6,10 +6,15 @@
     box-sizing: border-box;
 }
 
+@media screen and (max-width: 1000px) {
+    .page__content {
+        padding: 28px 19px 36px;
+    }
+}
+
 @media screen and (max-width: 767px) {
     .page__content {
         max-width: 553px;
-        padding: 28px 19px 36px;
     }
 }
 

@@ -1,9 +1,9 @@
 .profile {
     padding-top: 40px;
-    width: 100%;
+    max-width: 882px;
     align-items: center;
     display: grid;
-    grid-template-columns: 150px 336px auto;
+    grid-template-columns: 150px 350px auto;
 }
 
 @media screen and (max-width: 900px) {
