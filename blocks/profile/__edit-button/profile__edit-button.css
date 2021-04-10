@@ -3,21 +3,26 @@
     padding: 0;
     width: 24px;
     height: 24px;
-    background-size: cover;
+    border: 1px solid white;
     background-image: url(../../../images/edit.svg);
-    background-color: black;
+    background-color: transparent;
     background-repeat: no-repeat;
-    border: none;
+    background-position: center;
+    cursor: pointer;
 }
 
 .profile__edit-button:hover {
     opacity: .6;
-    cursor: pointer;
+}
+
+.profile__edit-button:focus {
+    opacity: 0;
 }
 
 @media screen and (max-width: 600px) {
     .profile__edit-button {
         margin-left: 15px;
-        background-size: 18px 18px;
+        width: 18px;
+        height: 18px;
     }
 }
