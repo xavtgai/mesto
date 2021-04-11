@@ -1,15 +1,8 @@
-.popup__job {
+.popup__field {
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, .2);
     padding: 5px 6px 13px;
     font-size: 14px;
     line-height: 17px;
     margin-top: 30px;
-}
-
-@media screen and (max-width: 600px) {
-    .popup__title {
-        font-size: 18px;
-        line-height: 22px;
-    }
 }
