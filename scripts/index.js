@@ -12,7 +12,7 @@ const profileTitle = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
 
 const popupEdit = document.querySelector('.popup');
-const popupAddCard = document.querySelector('.popup__add-card');
+const popupAddCard = document.querySelector('.popup_add-card');
 
 
 function openPopup(popup_type) {
@@ -95,7 +95,7 @@ elements.addEventListener('click', function(evt) {
     }
 })
 
-const viewer = document.querySelector('.popup__viewer');
+const viewer = document.querySelector('.popup_viewer');
 const closeViewerButton = document.querySelector('.popup__close-viewer');
 
 elements.addEventListener('click', function(evt) {
