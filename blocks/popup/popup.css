@@ -6,4 +6,7 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, .5);
     visibility: hidden;
+    z-index: 1;
+    opacity: 0;
+    transition: all .5s ease-in-out;
 }

@@ -11,9 +11,3 @@
     cursor: pointer;
     opacity: .5;
 }
-
-.element__like:active {
-    cursor: pointer;
-    background-image: url(../../../images/chosen_like.svg);
-    border: none;
-}

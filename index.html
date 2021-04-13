@@ -14,16 +14,33 @@
         <header class="header">
             <img src="./images/logo.svg" alt="Логотип сайта" class="logo">
         </header>
-        <div class="popup">
-
+        <div class="popup popup__profile">
             <div class="popup__content">
                 <button class="popup__close-button" type="button"></button>
-                <form action="action" class="popup__form" name="popupcontent">
+                <form action="action" class="popup__form popup__edit-profile" name="popupcontent">
                     <h2 class="popup__title">Редактировать профиль</h2>
                     <input class="popup__field" type="text" value="" placeholder="Имя" name="username" required id="name">
                     <input class="popup__field" type="text" value="" placeholder="Профессия" name="profession" required id="job">
                     <button class="popup__save" type="submit" aria-label="сохранить">Сохранить</button>
                 </form>
+            </div>
+        </div>
+        <div class="popup popup__add-card">
+            <div class="popup__content">
+                <button class="popup__close-button popup__close-new-card" type="button"></button>
+                <form action="action" class="popup__form popup__add-card-form" name="add_card">
+                    <h2 class="popup__title">Новое место</h2>
+                    <input class="popup__field" type="text" value="" placeholder="Название" name="card_title" required id="card_title">
+                    <input class="popup__field" type="text" value="" placeholder="Ссылка на картинку" name="card_link" required id="card_link">
+                    <button class="popup__save" type="submit" aria-label="сохранить">Создать</button>
+                </form>
+            </div>
+        </div>
+        <div class="popup popup__viewer">
+            <div class="popup__viewer-content">
+                <button class="popup__close-button popup__close-viewer" type="button"></button>
+                <img src="" alt="" class="popup__large-image">
+                <p class="popup__image-title">Картинка</p>
             </div>
         </div>
         <main class="content ">
@@ -41,48 +58,17 @@
             </section>
             <section>
                 <ul class="elements">
-                    <li class="element">
-                        <img src="./images/karachaevsk.jpg" alt="Архангай" class="element__photo">
-                        <div class="element__legend">
-                            <h2 class="element__photo-title">Архангай </h2>
-                            <button class="element__like" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="element">
-                        <img src="./images/dombai.png" alt="Баянхонгор" class="element__photo">
-                        <div class="element__legend">
-                            <h2 class="element__photo-title">Баянхонгор</h2>
-                            <button class="element__like" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="element">
-                        <img src="./images/elbrus.png" alt="Арвайхээр" class="element__photo">
-                        <div class="element__legend">
-                            <h2 class="element__photo-title">Арвайхээр</h2>
-                            <button class="element__like" type="button"> </button>
-                        </div>
-                    </li>
-                    <li class="element">
-                        <img src="./images/dombai.png" alt="Хэнтэй" class="element__photo">
-                        <div class="element__legend">
-                            <h2 class="element__photo-title">Хэнтэй</h2>
-                            <button class="element__like" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="element">
-                        <img src="./images/elbrus.png" alt="Хубсугул" class="element__photo">
-                        <div class="element__legend">
-                            <h2 class="element__photo-title">Хубсугул</h2>
-                            <button class="element__like" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="element">
-                        <img src="./images/karachaevsk.jpg" alt="Ховд" class="element__photo">
-                        <div class="element__legend">
-                            <h2 class="element__photo-title">Ховд</h2>
-                            <button class="element__like" type="button"></button>
-                        </div>
-                    </li>
+                    <template id="places">
+                        <li class="element">
+                            <img src="" alt="" class="element__photo">
+                            <button class="element__delete"></button>
+                            <div class="element__legend">
+                                <h2 class="element__photo-title"></h2>
+                                <button class="element__like"></button>
+                            </div>
+                        </li>
+                       
+                    </template>
                 </ul>
             </section>
         </main>
@@ -90,6 +76,7 @@
             <p class="footer">&copy; 2020 Mesto Russia</p>
         </footer>
     </div>
+    <script src="./scripts/places.js"></script>
     <script src='./scripts/index.js'></script>
 </body>
 
