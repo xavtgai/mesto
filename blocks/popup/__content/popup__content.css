@@ -2,8 +2,8 @@
         box-sizing: border-box;
         position: absolute;
         top: 90px;
-        max-height: 75vh;
-        max-width: 75vw;
+        min-height: 330px;
+        min-width: 430px;
         background-color: white;
         left: 50%;
         color: black;
