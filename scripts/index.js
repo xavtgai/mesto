@@ -86,15 +86,11 @@ function removeCard(evt) {
 }
 
 function getCardElement(data) {
-    console.log(data);
-    console.log("names" + data.name);
-    console.log("links" + data.link);
 
     const placeElement = placeTemplate.cloneNode(true);
     const placeImage = placeElement.querySelector('.element__photo');
     placeImage.src = data.link;
     placeImage.alt = data.name;
-    console.log(placeImage);
     placeElement.querySelector('.element__photo-title').textContent = data.name;
     //like
     const placeLike = placeElement.querySelector('.element__like');
@@ -121,6 +117,6 @@ function newCardSubmitHandler(evt) {
 
 initialCards.forEach(function(item) {
     const placeElement = getCardElement(item);
-    console.log(placeElement);
+
     elements.append(placeElement);
 })
