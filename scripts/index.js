@@ -37,7 +37,7 @@ function closePopup(popupType) {
 function closeByEscape(event, popupType) {
     if (event.key === "Escape") {
         closePopup(popupType);
-        window.removeEventListener('keydown', function() {
+        window.removeEventListener('keypress', function() {
             closeByEscape(event, popupType)
         });
     }
