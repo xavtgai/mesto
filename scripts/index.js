@@ -53,6 +53,7 @@ function openPopup(popupType) {
 
 function formSubmitHandler(evt) {
     evt.preventDefault();
+
     profileTitle.textContent = nameInput.value;
     profileJob.textContent = jobInput.value;
     closePopup(popupEdit);
