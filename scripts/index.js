@@ -7,7 +7,6 @@ const jobInput = document.getElementById('job');
 const cardTitle = document.getElementById('card_title');
 const cardLink = document.getElementById('card_link');
 
-
 const profileTitle = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
 
@@ -18,36 +17,33 @@ const popupEdit = document.querySelector('.popup_profile');
 const popupAddCard = document.querySelector('.popup_add-card');
 
 const editButton = document.querySelector('.profile__edit-button');
-const closeButton = document.querySelector('.popup__close-button');
 
-const closeCardButton = document.querySelector('.popup__close-new-card');
+
 const addCardButton = document.querySelector('.profile__add-button');
 
 const elements = document.querySelector('.elements');
 const placeTemplate = document.querySelector('#places').content;
 
 const viewer = document.querySelector('.popup_viewer');
-const closeViewerButton = document.querySelector('.popup__close-viewer');
-
+const source = document.querySelector('.popup__large-image');
+const imgTitle = document.querySelector('.popup__image-title');
 
 function closePopup(popupType) {
-    popupType.classList.remove('popup_visible')
+    popupType.classList.remove('popup_visible');
+    document.removeEventListener('keydown', closeByEscape);
+
 }
 
-function closeByEscape(event, popupType) {
-    if (event.key === "Escape") {
-        closePopup(popupType);
-        window.removeEventListener('keypress', function() {
-            closeByEscape(event, popupType)
-        });
+function closeByEscape(evt) {
+    if (evt.key === "Escape") {
+        const openedPopup = document.querySelector('.popup_visible')
+        closePopup(openedPopup);
     }
 }
 
 function openPopup(popupType) {
     popupType.classList.add('popup_visible');
-    window.addEventListener('keydown', function() {
-        closeByEscape(event, popupType)
-    });
+    document.addEventListener('keydown', closeByEscape);
 }
 
 
@@ -81,13 +77,9 @@ function getCardElement(data) {
     //open zoom
     placeImage.addEventListener('click', function(evt) {
         openPopup(viewer);
-        const source = document.querySelector('.popup__large-image');
-        const imgTitle = document.querySelector('.popup__image-title');
-        const imgText = evt.target.offsetParent.childNodes[5].childNodes[1].firstChild.nodeValue;
-        imgTitle.textContent = imgText;
-        source.alt = imgText;
-        source.src = evt.target.attributes.src.nodeValue;
-
+        imgTitle.textContent = data.name;
+        source.alt = data.name;
+        source.src = data.link;
     });
     return placeElement;
 }
@@ -106,29 +98,14 @@ editButton.addEventListener('click', function() {
     jobInput.value = profileJob.textContent;
 });
 
-closeButton.addEventListener('click', function() {
-    closePopup(popupEdit)
-});
-closeCardButton.addEventListener('click', function() {
-    closePopup(popupAddCard)
-});
-
-function closeByOverlay(event, popupType) {
-    if (event.currentTarget === event.target) {
-        closePopup(popupType);
-    }
-}
-
 popups.forEach((popupWindow) => popupWindow.addEventListener('click',
     function(event) {
-        if (event.target.classList.contains('popup_profile')) {
-            closeByOverlay(event, popupEdit)
-        } else if (event.target.classList.contains('popup_add-card')) {
-            closeByOverlay(event, popupAddCard);
-        } else {
-            closeByOverlay(event, viewer);
+        if (event.target.classList.contains('popup_visible')) {
+            closePopup(popupWindow)
         }
-
+        if (event.target.classList.contains('popup__close-button')) {
+            closePopup(popupWindow)
+        }
     }))
 
 
@@ -142,9 +119,6 @@ addCardButton.addEventListener('click', function() {
 profileForm.addEventListener('submit', formSubmitHandler);
 addCardForm.addEventListener('submit', newCardSubmitHandler);
 
-closeViewerButton.addEventListener('click', function() {
-    closePopup(viewer)
-});
 
 initialCards.forEach(function(item) {
     const placeElement = getCardElement(item);
