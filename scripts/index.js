@@ -1,6 +1,6 @@
 import {
     Card
-} from '/scripts/Card.js';
+} from './scripts/Card.js';
 import {
     FormValidator
 }
