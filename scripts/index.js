@@ -1,10 +1,10 @@
 import {
     Card
-} from 'Card.js';
+} from './scripts/Card.js';
 import {
     FormValidator
 }
-from 'FormValidator.js';
+from './scripts/FormValidator.js';
 
 
 const profileForm = document.querySelector('.popup__edit-profile');
