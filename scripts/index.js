@@ -15,7 +15,7 @@ const jobInput = document.getElementById('job');
 
 const cardTitle = document.getElementById('card_title');
 const cardLink = document.getElementById('card_link');
-..
+
 const profileTitle = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
 
