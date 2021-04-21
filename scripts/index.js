@@ -1,3 +1,12 @@
+import {
+    Card
+} from '/scripts/Card.js';
+import {
+    FormValidator
+}
+from '/scripts/FormValidator.js';
+
+
 const profileForm = document.querySelector('.popup__edit-profile');
 const addCardForm = document.querySelector('.popup__add-card-form');
 
@@ -55,38 +64,10 @@ function formSubmitHandler(evt) {
     closePopup(popupEdit);
 }
 
-function removeCard(evt) {
-    evt.target.closest('.element').remove();
-}
-
-function getCardElement(data) {
-
-    const placeElement = placeTemplate.cloneNode(true);
-    const placeImage = placeElement.querySelector('.element__photo');
-    placeImage.src = data.link;
-    placeImage.alt = data.name;
-    placeElement.querySelector('.element__photo-title').textContent = data.name;
-    //like
-    const placeLike = placeElement.querySelector('.element__like');
-    placeLike.addEventListener('click', function() {
-        placeLike.classList.toggle('element__like_selected');
-    });
-    //delete
-    const deleteButton = placeElement.querySelector('.element__delete');
-    deleteButton.addEventListener('click', removeCard);
-    //open zoom
-    placeImage.addEventListener('click', function(evt) {
-        openPopup(viewer);
-        imgTitle.textContent = data.name;
-        source.alt = data.name;
-        source.src = data.link;
-    });
-    return placeElement;
-}
-
 function newCardSubmitHandler(evt) {
     evt.preventDefault();
-    const newCard = getCardElement({ name: cardTitle.value, link: card_link.value })
+    const newImage = new Card({ name: cardTitle.value, link: card_link.value }, '#places');
+    const newCard = newImage.generateCard();
     elements.prepend(newCard);
     addCardForm.reset();
     closePopup(popupAddCard);
@@ -120,8 +101,30 @@ profileForm.addEventListener('submit', formSubmitHandler);
 addCardForm.addEventListener('submit', newCardSubmitHandler);
 
 
-initialCards.forEach(function(item) {
-    const placeElement = getCardElement(item);
+initialCards.forEach((item) => {
+    const card = new Card(item, '#places');
+    const cardElement = card.generateCard();
+    elements.append(cardElement);
+});
 
-    elements.append(placeElement);
-})
+
+const settings = {
+
+    fieldSelector: '.popup__field',
+    buttonSelector: '.popup__save',
+    errorClass: 'popup__field_error',
+    activeClass: 'popup__save',
+    inactiveClass: 'popup__save_inactive'
+
+};
+const formProfile = new FormValidator(
+    settings,
+    profileForm
+)
+
+const formNewCard = new FormValidator(
+    settings,
+    addCardForm
+)
+formProfile.enableValidation();
+formNewCard.enableValidation();
