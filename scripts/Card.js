@@ -22,7 +22,7 @@ export class Card {
         deleteButton.addEventListener('click', function(evt) {
             evt.target.closest('.element').remove();
         });
-        //open zoom
+        //open viewer
 
         this._element.querySelector('.element__photo').addEventListener('click', function() {
 

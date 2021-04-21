@@ -35,12 +35,10 @@ export class FormValidator {
     }
 
     _toggleButtonState(inputList, buttonElement, params) {
-        // Если есть хотя бы один невалидный инпут
+
         if (this._hasInvalidInput(inputList)) {
-            // сделай кнопку неактивной
             this._disableButton(buttonElement, this._params);
         } else {
-            // иначе сделай кнопку активной
             buttonElement.classList.add(this._params.activeClass);
             buttonElement.classList.remove(this._params.inactiveClass);
             buttonElement.removeAttribute('disabled');
