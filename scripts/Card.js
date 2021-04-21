@@ -25,7 +25,7 @@ export class Card {
         //open zoom
 
         this._element.querySelector('.element__photo').addEventListener('click', function() {
-            console.log(this.src);
+
             imgTitle.textContent = this.alt;
             source.alt = this.alt;
             source.src = this.src;

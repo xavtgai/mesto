@@ -4,8 +4,6 @@ export class FormValidator {
         this._formElement = form;
     };
 
-    _ex() { console.log('some function') };
-
     _showInputError(formElement, inputElement, errorMessage, params) {
         const errorElement = formElement.querySelector(`.popup__error_${inputElement.id}`);
         errorElement.textContent = errorMessage;
