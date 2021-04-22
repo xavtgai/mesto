@@ -1,7 +1,9 @@
-const viewer = document.querySelector('.popup_viewer');
-const source = document.querySelector('.popup__large-image');
-const imgTitle = document.querySelector('.popup__image-title');
-
+import {
+    viewer,
+    source,
+    imgTitle,
+    openPopup
+} from '../scripts/index.js';
 
 export class Card {
     constructor(data, cardSelector) {
@@ -23,14 +25,11 @@ export class Card {
             evt.target.closest('.element').remove();
         });
         //open viewer
-
         this._element.querySelector('.element__photo').addEventListener('click', function() {
-
             imgTitle.textContent = this.alt;
             source.alt = this.alt;
             source.src = this.src;
-            viewer.classList.add('popup_visible')
-
+            openPopup(viewer);
         });
 
     }
@@ -47,10 +46,10 @@ export class Card {
 
     generateCard() {
         this._element = this._getTemplate();
-        this._element.querySelector('.element__photo').src = this._link
-        this._element.querySelector('.element__photo').alt = this._name
+        const photo = this._element.querySelector('.element__photo');
         this._element.querySelector('.element__photo-title').textContent = this._name;
-
+        photo.src = this._link
+        photo.alt = this._name
         this._setEventListeners();
         return this._element;
     }

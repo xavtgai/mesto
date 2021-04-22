@@ -33,9 +33,10 @@ const addCardButton = document.querySelector('.profile__add-button');
 const elements = document.querySelector('.elements');
 const placeTemplate = document.querySelector('#places').content;
 
-const viewer = document.querySelector('.popup_viewer');
-const source = document.querySelector('.popup__large-image');
-const imgTitle = document.querySelector('.popup__image-title');
+export const viewer = document.querySelector('.popup_viewer');
+export const source = document.querySelector('.popup__large-image');
+export const imgTitle = document.querySelector('.popup__image-title');
+
 
 function closePopup(popupType) {
     popupType.classList.remove('popup_visible');
@@ -50,7 +51,7 @@ function closeByEscape(evt) {
     }
 }
 
-function openPopup(popupType) {
+export function openPopup(popupType) {
     popupType.classList.add('popup_visible');
     document.addEventListener('keydown', closeByEscape);
 }
@@ -64,10 +65,14 @@ function formSubmitHandler(evt) {
     closePopup(popupEdit);
 }
 
+function createCard(item) {
+    const card = new Card(item, '#places');
+    return card.generateCard();
+}
+
 function newCardSubmitHandler(evt) {
     evt.preventDefault();
-    const newImage = new Card({ name: cardTitle.value, link: card_link.value }, '#places');
-    const newCard = newImage.generateCard();
+    const newCard = createCard({ name: cardTitle.value, link: card_link.value })
     elements.prepend(newCard);
     addCardForm.reset();
     closePopup(popupAddCard);
@@ -101,9 +106,9 @@ profileForm.addEventListener('submit', formSubmitHandler);
 addCardForm.addEventListener('submit', newCardSubmitHandler);
 
 
+
 initialCards.forEach((item) => {
-    const card = new Card(item, '#places');
-    const cardElement = card.generateCard();
+    const cardElement = createCard(item)
     elements.append(cardElement);
 });
 
