@@ -1,15 +1,10 @@
-import {
-    viewer,
-    source,
-    imgTitle,
-    openPopup
-} from '../scripts/index.js';
-
-export class Card {
-    constructor(data, cardSelector) {
-        this._name = data.name;
-        this._link = data.link;
+export default class Card {
+    constructor(data, cardSelector, handleCardClick) {
+        this._data = data;
+        this._name = this._data.card_title;
+        this._link = this._data.card_link;
         this._cardSelector = cardSelector;
+        this._handleCardClick = handleCardClick;
     }
     _setEventListeners() {
 
@@ -25,13 +20,13 @@ export class Card {
             evt.target.closest('.element').remove();
         });
         //open viewer
-        this._element.querySelector('.element__photo').addEventListener('click', function() {
-            imgTitle.textContent = this.alt;
-            source.alt = this.alt;
-            source.src = this.src;
-            openPopup(viewer);
-        });
 
+        this._element.querySelector('.element__photo').addEventListener('click',
+            (evt) => this._previewCard(evt));
+    }
+
+    _previewCard() {
+        this._handleCardClick(this._data);
     }
 
     _getTemplate() {
