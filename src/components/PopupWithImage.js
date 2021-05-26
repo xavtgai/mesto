@@ -9,9 +9,10 @@ export default class PopupWithImage extends Popup {
         super(popupSelector);
     }
     open(data) {
+        console.log(data);
         imgTitle.textContent = data.alt;
         source.alt = data.alt;
-        source.src = data.link;
+        source.src = data.card_link;
         super.open();
     }
 }
