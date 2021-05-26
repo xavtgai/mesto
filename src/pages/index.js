@@ -8,14 +8,13 @@ import {
     FormValidator
 } from '../components/FormValidator.js';
 
+
 import {
     initialCards,
     profileForm,
     addCardForm,
     nameInput,
     jobInput,
-    profileTitle,
-    profileJob,
     editButton,
     addCardButton,
     settings
@@ -31,11 +30,12 @@ editButton.addEventListener('click', () => {
 //open add card dialogue
 
 addCardButton.addEventListener('click', () => {
+    formNewCard.disableButton();
     popupCardAdd.open();
 
 })
 
-const userInfo = new UserInfo({ name: profileTitle, info: profileJob });
+const userInfo = new UserInfo({ name: '.profile__title', info: '.profile__subtitle' });
 
 // form submitting
 const profileSubmitHandler = function(data) {

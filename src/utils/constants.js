@@ -4,8 +4,6 @@ export const nameInput = document.getElementById('name');
 export const jobInput = document.getElementById('job');
 export const cardTitle = document.getElementById('card_title');
 export const cardLink = document.getElementById('card_link');
-export const profileTitle = document.querySelector('.profile__title');
-export const profileJob = document.querySelector('.profile__subtitle');
 export const popup = document.querySelector('.popup');
 export const popups = Array.from(document.querySelectorAll('.popup'));
 export const popupEdit = document.querySelector('.popup_profile');
@@ -15,8 +13,6 @@ export const addCardButton = document.querySelector('.profile__add-button');
 export const elements = document.querySelector('.elements');
 export const placeTemplate = document.querySelector('#places').content;
 export const viewer = document.querySelector('.popup_viewer');
-export const source = document.querySelector('.popup__large-image');
-export const imgTitle = document.querySelector('.popup__image-title');
 
 export const initialCards = [{
         card_title: 'Архангай',
