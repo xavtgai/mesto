@@ -1,10 +1,13 @@
 export default class Card {
     constructor(data, cardSelector, handleCardClick) {
         this._data = data;
-        this._name = this._data.card_title;
-        this._link = this._data.card_link;
+        this._name = this._data.name;
+        this._link = this._data.link;
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
+
+        this._likes = data.likes.length;
+
     }
     _setEventListeners() {
 
@@ -45,6 +48,7 @@ export default class Card {
         this._element.querySelector('.element__photo-title').textContent = this._name;
         photo.src = this._link
         photo.alt = this._name
+        this._element.querySelector('.element__like-number').textContent = this._likes;
         this._setEventListeners();
         return this._element;
     }

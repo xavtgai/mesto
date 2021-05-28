@@ -30,10 +30,10 @@
                 <button class="popup__close-button popup__close-new-card" type="button"></button>
                 <form action="action" class="popup__form popup__add-card-form" name="add_card" novalidate>
                     <h2 class="popup__title">Новое место</h2>
-                    <input class="popup__field" type="text" value="" placeholder="Название" name="card_title" required id="card_title" maxlength=30 minlength=2>
-                    <span class="popup__error popup__error_card_title"></span>
-                    <input class="popup__field" type="url" value="" placeholder="Ссылка на картинку" name="card_link" required id="card_link">
-                    <span class="popup__error popup__error_card_link"></span>
+                    <input class="popup__field" type="text" value="" placeholder="Название" name="name" required id="name" maxlength=30 minlength=2>
+                    <span class="popup__error popup__error_name"></span>
+                    <input class="popup__field" type="url" value="" placeholder="Ссылка на картинку" name="link" required id="link">
+                    <span class="popup__error popup__error_link"></span>
                     <button class="popup__save" type="submit" aria-label="создать" disabled>Создать</button>
                 </form>
             </div>
@@ -45,9 +45,32 @@
                 <p class="popup__image-title">Картинка</p>
             </div>
         </div>
+        <div class="popup popup_delete-confirmation">
+            <div class="popup__content">
+                <button class="popup__close-button popup__close-delete-confirmation" type="button"></button>
+                <form action="action" class="popup__form popup__delete-confirmation" name="delete_card" novalidate>
+                    <h2 class="popup__title">Вы уверены?</h2>
+                    <button class="popup__save" type="submit" aria-label="удалить" disabled>Да</button>
+                </form>
+            </div>
+        </div>
+        <!-- <div class="popup popup_avatar-replace">
+            <div class="popup__content">
+                <button class="popup__close-button popup__close-avatar-replace" type="button"></button>
+                <form action="action" class="popup__form popup__avatar-replace-form" name="replace_avatar" novalidate>
+                    <h2 class="popup__title">Обновить аватар</h2>
+                    <input class="popup__field" type="url" value="" placeholder="Ссылка на новый аватар" name="avatar_link" required id="avatar_link">
+                    <span class="popup__error popup__error_card_link"></span>
+                    <button class="popup__save" type="submit" aria-label="сохранить" disabled>Сохранить</button>
+                </form>
+            </div> -->
+
         <main class="content ">
             <section class="profile">
+                <!-- <div class="profile__picture"> -->
                 <img src="<%=require('./images/custeau.png')%>" alt="Юзерпик" class="profile__avatar">
+                <button class="profile__avatar-edit"></button>
+                <!-- </div> -->
                 <div class="profile__info">
                     <div class="profile__edit">
                         <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -66,12 +89,14 @@
                             <button class="element__delete"></button>
                             <div class="element__legend">
                                 <h2 class="element__photo-title"></h2>
-                                <button class="element__like"></button>
+                                <div class="element__likes">
+                                   <button class="element__like"></button>
+                                   <p class="element__like-number">0</p>
+                                </div>
                             </div>
                         </li>
                        
-                    </template>
-                </ul>
+                    </template> </ul>
             </section>
         </main>
         <footer>
