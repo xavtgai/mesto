@@ -11,6 +11,8 @@ import Api from '../components/Api.js';
 
 import {
     initialCards,
+    avatarButton,
+    avatarForm,
     profileForm,
     addCardForm,
     nameInput,
@@ -19,7 +21,9 @@ import {
     addCardButton,
     submitButton,
     likeButton,
-    settings
+    settings,
+    myJob,
+    myName
 } from '../utils/constants.js';
 
 const api = new Api({
@@ -40,25 +44,14 @@ function renderLoading(isLoading, currentText) {
 
 }
 
-const userInfo = new UserInfo({ name: '.profile__title', info: '.profile__subtitle', id: '#0' });
+const myInfo = new UserInfo({ name: '.profile__title', about: '.profile__subtitle', userpic: '.profile__avatar' });
 
-let myId = null;
-let userid = null;
-api.myData().then((data) => {
-
-    userInfo.setUserInfo2(data);
-    console.log(userInfo.getUserInfo2(), "userinfo");
-});
-console.log(userInfo.getUserInfo2(), "userinfo2");
-
-// open profile
+// open profile change dialogue
 editButton.addEventListener('click', () => {
-    nameInput.value = userInfo.getUserInfo().name;
-    jobInput.value = userInfo.getUserInfo().info;
+    nameInput.value = myInfo.getUserInfo().name;
+    jobInput.value = myInfo.getUserInfo().about;
     popupProfile.open();
 });
-
-
 
 //open add card dialogue
 
@@ -68,10 +61,18 @@ addCardButton.addEventListener('click', () => {
 
 })
 
+//open avatar replacement dialogue
+avatarButton.addEventListener('click', () => {
+    formAvatar.disableButton();
+    avatar.open();
+
+})
 
 // form submitting
 const profileSubmitHandler = function(data) {
-    userInfo.setUserInfo(data);
+    myInfo.setUserInfo(data);
+    myName.textContent = data['username'];
+    myJob.textContent = data['profession'];
     let currentText = submitButton.textContent;
     renderLoading(true, currentText);
     api.profileEdit(data["username"], data["profession"]);
@@ -87,13 +88,20 @@ popupProfile.setEventListeners();
 const popupCardAdd = new PopupWithForm('.popup_add-card', submitHandlerCard);
 popupCardAdd.setEventListeners();
 
+//replace avatar
+const avatar = new PopupWithForm('.popup_avatar-replace', avatarSubmitHandler);
+avatar.setEventListeners();
+
 
 //deleting card
 
-const deleteSubmitHandler = function(data) {
-        deleteCardConfirmation.close();
-    }
-    //delete card confirmation
+const deleteSubmitHandler = () => {
+    const cardForDeletion = deleteCardConfirmation.currentCard;
+    return api.deleteCard(cardForDeletion._data._id)
+        .then(cardForDeletion.remove);
+}
+
+//delete card confirmation
 const deleteCardConfirmation = new PopupWithForm('.popup_delete-confirmation', deleteSubmitHandler);
 deleteCardConfirmation.setEventListeners();
 
@@ -105,19 +113,32 @@ function handleCardClick(data) {
 }
 Image.setEventListeners();
 
-//new card
-// function like(cardId) {
-//     likeButton.addEventListener('click', () => {
-//         console.log("like!")
-//         api.addLike(cardId);
-//     })
-// }
-
 function createCard(item) {
-    const card = new Card(item, '#places', handleCardClick);
-    //console.log(item["owner"]["_id"]);
+    const card = new Card(item,
+        '#places',
+        handleCardClick,
+        () => {
+            deleteCardConfirmation.currentCard = card;
+            deleteCardConfirmation.open();
+        },
+
+        () => {
+            (item.isLiked ?
+                api.removeLike(item._id) :
+                api.addLike(item._id))
+            .then(res => {
+                card.toggleLike();
+                card.renewLikes(res.likes.length);
+                item.isLiked = !item.isLiked;
+            });
+
+        }
+    );
+
     return card.generateCard();
 }
+
+
 
 api.myData()
     .then((result) => {
@@ -131,24 +152,19 @@ api.myData()
 function pictureIsMine() {
 
 }
-// // initial cards adding
-// const CardList = new Section({
-//         items: initialCards,
-//         renderer: (items) => {
-//             items.reverse().forEach(item => {
-//                 const cardElement = createCard(item);
-//                 CardList.addItem(cardElement);
-//             })
-//         }
-//     },
-//     '.elements');
-// CardList.renderItems();
 
 function submitHandlerCard(values) {
     let currentText = submitButton.textContent;
     renderLoading(true, currentText);
     api.addCard(values["name"], values["link"]);
 
+    renderLoading(false, currentText);
+}
+
+function avatarSubmitHandler(values) {
+    let currentText = submitButton.textContent;
+    renderLoading(true, currentText);
+    api.avatarReplace(values["avatar_link"]);
     renderLoading(false, currentText);
 }
 
@@ -161,74 +177,46 @@ const formProfile = new FormValidator(
     profileForm
 )
 
+const formAvatar = new FormValidator(
+    settings,
+    avatarForm
+)
+
 formProfile.enableValidation();
 formNewCard.enableValidation();
+formAvatar.enableValidation();
 
-
-
-
-// api.getInitialCards();
-// api.profileEdit("Jugderdemediin Gurragchaa", "Mongolian astronaut");
-api.myData();
-//api.addCard("Монголия", "https://images.unsplash.com/photo-1603602943247-93dc0c81a932")
-// api.deleteCard("60ae40475a5d3b0036d4144f");
-
-api.getInitialCards()
-    .then((data) => renderCards(data));
-
-function renderCards(initialCards) {
-    const CardList4 = new Section({
+function renderCards(initialCards, myId) {
+    const CardList = new Section({
             items: initialCards,
             renderer: (items) => {
                 items.forEach(item => {
+                    if (item.owner._id === myId) {
+                        item.trash_icon = 1;
+                    } else { item.trash_icon = 0; }
+
+                    if (item.likes.filter(user => user._id === myId).length != 0) {
+                        item.isLiked = 1;
+                    }
+
                     const cardElement = createCard(item);
-                    CardList4.addItem(cardElement);
+                    CardList.addItem(cardElement);
                 })
             }
         },
         '.elements');
-    CardList4.renderItems();
+    CardList.renderItems();
 }
+Promise.all([
+        api.myData(),
+        api.getInitialCards(),
+    ])
+    .then(([myData, initialCards]) => {
+        myInfo.setUserInfo({
+            name: myData.name,
+            about: myData.about,
+            userpic: myData.avatar
+        });
+        renderCards(initialCards, myData._id);
 
-
-// function renderCards(data) {
-//     const CardList3 = new Section({
-//             items: data,
-//             renderer: (data) => {
-//                 const card = createCard(data);
-//                 console.log(card);
-//                 CardList3.addItem(card);
-//             }
-//         },
-//         '.elements');
-//     CardList3.renderItems();
-// }
-
-
-// initial cards adding through api
-// const CardList2 = new Section({
-//         renderer: (item) => {
-//             CardList2.addItem(createCard(item));
-//         }
-//     },
-//     '.elements');
-// api.getCards().then((result) => {
-//     result.forEach((item) => {
-//         console.log(createCard(item));
-//     });
-// });
-
-
-// api.getInitialCards()
-//     .then(result => {
-//         CardList2.renderItems(result)
-//     })
-//     .then((data) => console.log(data))
-//     .catch(console.log("no"));
-
-// Promise.all([api.getInitialCards()])
-//     .then(([pictures]) => {
-//         CardList2.renderItems(pictures)
-//     }).catch(console.log("все плохо"));
-//     }).catch(console.log("все плохо"));
-//     }).catch(console.log("все плохо"));
+    }).catch(console.error);

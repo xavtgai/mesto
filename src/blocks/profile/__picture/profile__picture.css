@@ -1,6 +1,26 @@
 .profile__picture {
+    position: relative;
+    max-width: 120px;
+    max-height: 120px;
+}
+
+.profile__picture::before {
     position: absolute;
     top: 0;
+    height: 100%;
     width: 100%;
-    height: fit-content;
+    border-radius: 50%;
+    box-sizing: border-box;
+    pointer-events: none;
+    content: '';
+    background-image: url('../../../images/avatar.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 47px;
+    background-origin: content-box;
+    opacity: 0;
+}
+
+.profile__picture:hover::before {
+    opacity: 1;
 }

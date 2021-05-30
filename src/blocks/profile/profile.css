@@ -5,20 +5,20 @@
     align-items: center;
     display: grid;
     grid-template-columns: 150px 350px auto;
-    grid-template-areas: 'avatar text add-button';
+    /* grid-template-areas: 'avatar text add-button'; */
+}
+
+@media screen and (max-width: 900px) {
+    .profile {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 
 /* @media screen and (max-width: 900px) {
     .profile {
-        display: flex;
-        flex-direction: column;
-    }
-} */
-
-@media screen and (max-width: 900px) {
-    .profile {
         grid-template-rows: 1fr 1fr 1fr;
         grid-template-columns: 1fr;
     }
-}
+} */

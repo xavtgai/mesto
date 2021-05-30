@@ -42,7 +42,7 @@ export default class Api {
                     avatar: avatar
                 })
             })
-            .then(res => res.json())
+            .then(this._handleResponse)
             .then((result) => {
                 console.log(result);
             });
@@ -83,7 +83,7 @@ export default class Api {
     }
     removeLike(card_id) {
         return fetch(`${this.baseurl}/cards/likes/${card_id}`, {
-                method: 'PUT',
+                method: 'DELETE',
                 headers: this.headers
             })
             .then(res => res.json())

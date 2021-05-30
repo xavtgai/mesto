@@ -1,4 +1,6 @@
 export const profileForm = document.querySelector('.popup__edit-profile');
+export const avatarButton = document.querySelector('.profile__picture');
+export const avatarForm = document.querySelector('.popup__avatar-replace-form');
 export const addCardForm = document.querySelector('.popup__add-card-form');
 export const nameInput = document.getElementById('name');
 export const jobInput = document.getElementById('job');
@@ -15,6 +17,9 @@ export const placeTemplate = document.querySelector('#places').content;
 export const viewer = document.querySelector('.popup_viewer');
 export const submitButton = document.querySelector('.popup__save');
 export const likeButton = document.querySelector('.element__like');
+export const myName = document.querySelector('.profile__title');
+export const myJob = document.querySelector('.profile__subtitle');
+
 
 export const initialCards = [{
         likes: [],
