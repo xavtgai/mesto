@@ -42,10 +42,7 @@ export default class Api {
                     avatar: avatar
                 })
             })
-            .then(this._handleResponse)
-            .then((result) => {
-                console.log(result);
-            });
+            .then(this._handleResponse);
     }
     addCard(card_title, card_link) {
         return fetch(`${this.baseurl}/cards`, {
@@ -56,40 +53,28 @@ export default class Api {
                     link: card_link
                 })
             })
-            .then(res => res.json())
-            .then((result) => {
-                console.log(result);
-            });
+            .then(this._handleResponse);
     }
     deleteCard(card_id) {
         return fetch(`${this.baseurl}/cards/${card_id}`, {
                 method: 'DELETE',
                 headers: this.headers
             })
-            .then(res => res.json())
-            .then((result) => {
-                console.log(result);
-            });
+            .then(this._handleResponse);
     }
     addLike(card_id) {
         return fetch(`${this.baseurl}/cards/likes/${card_id}`, {
                 method: 'PUT',
                 headers: this.headers
             })
-            .then(res => res.json())
-            .then((result) => {
-                console.log(result);
-            });
+            .then(this._handleResponse)
     }
     removeLike(card_id) {
         return fetch(`${this.baseurl}/cards/likes/${card_id}`, {
                 method: 'DELETE',
                 headers: this.headers
             })
-            .then(res => res.json())
-            .then((result) => {
-                console.log(result);
-            });
+            .then(this._handleResponse);
     }
 
     getCards() {

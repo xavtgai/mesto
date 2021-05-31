@@ -8,6 +8,7 @@ export default class PopupWithForm extends Popup {
     }
 
     _getInputValues() {
+
         const values = {};
         const inputsList = Array.from(this.inputs);
         inputsList.forEach((input) => {
@@ -17,12 +18,14 @@ export default class PopupWithForm extends Popup {
     }
 
     setEventListeners() {
+
         super.setEventListeners();
         this.form.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._submitHandler(this._getInputValues());
             this.close();
         });
+
     }
 
     close() {

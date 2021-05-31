@@ -23,8 +23,12 @@ import {
     likeButton,
     settings,
     myJob,
-    myName
+    myName,
+    myAvatar,
+    elements
 } from '../utils/constants.js';
+
+
 
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-24',
@@ -121,7 +125,6 @@ function createCard(item) {
             deleteCardConfirmation.currentCard = card;
             deleteCardConfirmation.open();
         },
-
         () => {
             (item.isLiked ?
                 api.removeLike(item._id) :
@@ -131,14 +134,11 @@ function createCard(item) {
                 card.renewLikes(res.likes.length);
                 item.isLiked = !item.isLiked;
             });
-
         }
     );
 
     return card.generateCard();
 }
-
-
 
 api.myData()
     .then((result) => {
@@ -146,24 +146,32 @@ api.myData()
         //он не будет теряться при обновлении страницы. В задании этого не было, но кажется, что это логично
         document.querySelector('.profile__title').textContent = result.name;
         document.querySelector('.profile__subtitle').textContent = result.about;
+        myAvatar.src = result.avatar;
     })
-
-
-function pictureIsMine() {
-
-}
 
 function submitHandlerCard(values) {
     let currentText = submitButton.textContent;
     renderLoading(true, currentText);
-    api.addCard(values["placename"], values["link"]);
+    api.addCard(values["placename"], values["link"]).then((res) => {
+        const newCard = createCard({
+            name: values["placename"],
+            link: values["link"],
+            trash_icon: 1,
+            isLiked: 0,
+            likes: [],
+            _id: res._id
+        });
+        elements.prepend(newCard);
 
+    });
     renderLoading(false, currentText);
 }
+
 
 function avatarSubmitHandler(values) {
     let currentText = submitButton.textContent;
     renderLoading(true, currentText);
+    myAvatar.src = values["avatar_link"];
     api.avatarReplace(values["avatar_link"]);
     renderLoading(false, currentText);
 }

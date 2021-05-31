@@ -53,6 +53,9 @@ export default class Card {
     renewLikes(likesNum) {
         this._element.querySelector('.element__like-number').textContent = likesNum;
     };
+
+    remove = () => this._element.remove();
+
     generateCard() {
         this._element = this._getTemplate();
         const photo = this._element.querySelector('.element__photo');
