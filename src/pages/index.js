@@ -156,7 +156,7 @@ function pictureIsMine() {
 function submitHandlerCard(values) {
     let currentText = submitButton.textContent;
     renderLoading(true, currentText);
-    api.addCard(values["name"], values["link"]);
+    api.addCard(values["placename"], values["link"]);
 
     renderLoading(false, currentText);
 }
