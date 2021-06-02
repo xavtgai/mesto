@@ -1,8 +1,8 @@
 export default class UserInfo {
-    constructor({ name, about, userpic }) {
+    constructor({ name, about, userPic }) {
         this._name = document.querySelector(name);
         this._about = document.querySelector(about);
-        this._avatar = document.querySelector(userpic);
+        this._avatar = document.querySelector(userPic);
     }
 
     //current data
@@ -29,7 +29,7 @@ export default class UserInfo {
             this._about.textContent = about
         };
         if (avatar) {
-            this._avatarElement.src = avatar
+            this._avatar.src = avatar
         };
     }
 }

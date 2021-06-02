@@ -3,7 +3,7 @@ export default class Card {
         this._data = data;
         this._name = this._data.name;
         this._link = this._data.link;
-        this._trash_icon = this._data.trash_icon;
+        this._trashIcon = this._data.trashIcon;
         this._isLiked = this._data.isLiked
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
@@ -17,7 +17,7 @@ export default class Card {
 
         //delete
 
-        if (this._trash_icon === 1) {
+        if (this._trashIcon) {
             const deleteButton = this._element.querySelector('.element__delete');
             deleteButton.addEventListener('click', this._handleDelete);
         } else {
@@ -51,6 +51,7 @@ export default class Card {
         this._element.querySelector('.element__like').classList.toggle('element__like_selected');
 
     renewLikes(likesNum) {
+        this.toggleLike();
         this._element.querySelector('.element__like-number').textContent = likesNum;
     };
 

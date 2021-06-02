@@ -79,7 +79,7 @@ export default class Api {
 
     getCards() {
         return fetch(`${this.baseurl}/cards`, { headers: this.headers })
-            .then(result => result.ok ? result.json() : Promise.reject(`${result.status}`))
+            .then(this._handleResponse);
     }
 
 }

@@ -48,7 +48,7 @@ function renderLoading(isLoading, currentText) {
 
 }
 
-const myInfo = new UserInfo({ name: '.profile__title', about: '.profile__subtitle', userpic: '.profile__avatar' });
+const myInfo = new UserInfo({ name: '.profile__title', about: '.profile__subtitle', userPic: '.profile__avatar' });
 
 // open profile change dialogue
 editButton.addEventListener('click', () => {
@@ -77,7 +77,7 @@ const profileSubmitHandler = function(data) {
     myInfo.setUserInfo(data);
     myName.textContent = data['username'];
     myJob.textContent = data['profession'];
-    let currentText = submitButton.textContent;
+    const currentText = submitButton.textContent;
     renderLoading(true, currentText);
     api.profileEdit(data["username"], data["profession"]);
     renderLoading(false, currentText);
@@ -110,12 +110,12 @@ const deleteCardConfirmation = new PopupWithForm('.popup_delete-confirmation', d
 deleteCardConfirmation.setEventListeners();
 
 //open large image view
-const Image = new PopupWithImage('.popup_viewer');
+const imagePopup = new PopupWithImage('.popup_viewer');
 
 function handleCardClick(data) {
-    Image.open(data);
+    imagePopup.open(data);
 }
-Image.setEventListeners();
+imagePopup.setEventListeners();
 
 function createCard(item) {
     const card = new Card(item,
@@ -130,7 +130,7 @@ function createCard(item) {
                 api.removeLike(item._id) :
                 api.addLike(item._id))
             .then(res => {
-                card.toggleLike();
+                // card.toggleLike();
                 card.renewLikes(res.likes.length);
                 item.isLiked = !item.isLiked;
             });
@@ -144,19 +144,17 @@ api.myData()
     .then((result) => {
         //после редактирования данных будем обновлять текст в профиле с сервера и 
         //он не будет теряться при обновлении страницы. В задании этого не было, но кажется, что это логично
-        document.querySelector('.profile__title').textContent = result.name;
-        document.querySelector('.profile__subtitle').textContent = result.about;
-        myAvatar.src = result.avatar;
+        myInfo.setUserInfo({ name: result.name, about: result.about, avatar: result.avatar });
     })
 
 function submitHandlerCard(values) {
-    let currentText = submitButton.textContent;
+    const currentText = submitButton.textContent;
     renderLoading(true, currentText);
     api.addCard(values["placename"], values["link"]).then((res) => {
         const newCard = createCard({
             name: values["placename"],
             link: values["link"],
-            trash_icon: 1,
+            trashIcon: 1,
             isLiked: 0,
             likes: [],
             _id: res._id
@@ -169,7 +167,7 @@ function submitHandlerCard(values) {
 
 
 function avatarSubmitHandler(values) {
-    let currentText = submitButton.textContent;
+    const currentText = submitButton.textContent;
     renderLoading(true, currentText);
     myAvatar.src = values["avatar_link"];
     api.avatarReplace(values["avatar_link"]);
@@ -200,8 +198,8 @@ function renderCards(initialCards, myId) {
             renderer: (items) => {
                 items.forEach(item => {
                     if (item.owner._id === myId) {
-                        item.trash_icon = 1;
-                    } else { item.trash_icon = 0; }
+                        item.trashIcon = 1;
+                    } else { item.trashIcon = 0; }
 
                     if (item.likes.filter(user => user._id === myId).length != 0) {
                         item.isLiked = 1;
@@ -223,7 +221,7 @@ Promise.all([
         myInfo.setUserInfo({
             name: myData.name,
             about: myData.about,
-            userpic: myData.avatar
+            userPic: myData.avatar
         });
         renderCards(initialCards, myData._id);
 
