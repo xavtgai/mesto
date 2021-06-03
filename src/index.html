@@ -21,7 +21,7 @@
                     <span class="popup__error popup__error_name"></span>
                     <input class="popup__field" type="text" value="" placeholder="Профессия" name="profession" maxlength=200 minlength=2 required id="job">
                     <span class="popup__error popup__error_job"></span>
-                    <button class="popup__save" type="submit" aria-label="сохранить" disabled>Сохранить</button>
+                    <button class="popup__save" id="saveProfileButton" type=" submit " aria-label="сохранить " disabled>Сохранить</button>
                 </form>
             </div>
         </div>
@@ -30,19 +30,19 @@
                 <button class="popup__close-button popup__close-new-card" type="button"></button>
                 <form action="action" class="popup__form popup__add-card-form" name="add_card" novalidate>
                     <h2 class="popup__title">Новое место</h2>
-                    <input class="popup__field" type="text" value="" placeholder="Название" name="placename" required id="placename" maxlength=30 minlength=2>
+                    <input class="popup__field" type="text " value="" placeholder="Название" name="placename" required id="placename" maxlength=30 minlength=2>
                     <span class="popup__error popup__error_placename"></span>
-                    <input class="popup__field" type="url" value="" placeholder="Ссылка на картинку" name="link" required id="link">
+                    <input class="popup__field" type="url" value="" placeholder="Ссылка на картинку " name="link" required id="link">
                     <span class="popup__error popup__error_link"></span>
-                    <button class="popup__save" type="submit" aria-label="создать" disabled>Создать</button>
+                    <button class="popup__save" type="submit" id="createCardButton" aria-label="создать" disabled>Создать</button>
                 </form>
             </div>
         </div>
-        <div class="popup popup_viewer">
-            <div class="popup__viewer-content">
-                <button class="popup__close-button popup__close-viewer" type="button"></button>
-                <img src="#dummy_image" alt="Большое изображение" class="popup__large-image">
-                <p class="popup__image-title">Картинка</p>
+        <div class="popup popup_viewer ">
+            <div class="popup__viewer-content ">
+                <button class="popup__close-button popup__close-viewer " type="button "></button>
+                <img src="#dummy_image " alt="Большое изображение " class="popup__large-image ">
+                <p class="popup__image-title ">Картинка</p>
             </div>
         </div>
         <div class="popup popup_delete-confirmation">
@@ -50,26 +50,26 @@
                 <button class="popup__close-button popup__close-delete-confirmation" type="button"></button>
                 <form action="action" class="popup__form popup__delete-confirmation" name="delete_card" novalidate>
                     <h2 class="popup__title">Вы уверены?</h2>
-                    <button class="popup__save" type="submit" aria-label="удалить">Да</button>
+                    <button class="popup__save" type="submit " id="deleteCardButton" aria-label="удалить ">Да</button>
                 </form>
             </div>
         </div>
         <div class="popup popup_avatar-replace">
             <div class="popup__content">
-                <button class="popup__close-button popup__close-avatar-replace" type="button"></button>
-                <form action="action" class="popup__form popup__avatar-replace-form" name="replace_avatar" novalidate>
-                    <h2 class="popup__title">Обновить аватар</h2>
-                    <input class="popup__field" type="url" value="" placeholder="Ссылка на новый аватар" name="avatar_link" required id="avatar_link">
-                    <span class="popup__error popup__error_avatar_link"></span>
-                    <button class="popup__save" type="submit" aria-label="сохранить" disabled>Сохранить</button>
+                <button class="popup__close-button popup__close-avatar-replace" type="button "></button>
+                <form action="action" class="popup__form popup__avatar-replace-form" name="replace_avatar " novalidate>
+                    <h2 class="popup__title ">Обновить аватар</h2>
+                    <input class="popup__field " type="url " value="" placeholder=" Ссылка на новый аватар " name="avatar_link" required id="avatar_link">
+                    <span class="popup__error popup__error_avatar_link "></span>
+                    <button class="popup__save " type="submit " id="avatarReplaceButton" aria-label="сохранить " disabled>Сохранить</button>
                 </form>
             </div>
         </div>
 
         <main class="content ">
-            <section class="profile">
-                <div class="profile__picture">
-                    <img src="<%=require('./images/custeau.png')%>" alt="Юзерпик" class="profile__avatar">
+            <section class="profile ">
+                <div class="profile__picture ">
+                    <img src="<%=require( './images/custeau.png')%>" alt="Юзерпик" class="profile__avatar">
 
                 </div>
                 <div class="profile__info">

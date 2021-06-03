@@ -10,7 +10,6 @@ import {
 import Api from '../components/Api.js';
 
 import {
-    initialCards,
     avatarButton,
     avatarForm,
     profileForm,
@@ -19,13 +18,13 @@ import {
     jobInput,
     editButton,
     addCardButton,
-    submitButton,
-    likeButton,
     settings,
     myJob,
     myName,
-    myAvatar,
-    elements
+    elements,
+    saveProfileButton,
+    createCardButton,
+    avatarReplaceButton
 } from '../utils/constants.js';
 
 
@@ -38,12 +37,12 @@ const api = new Api({
     }
 });
 
-function renderLoading(isLoading, currentText) {
+function renderLoading(isLoading, button, currentText) {
 
     if (isLoading) {
-        submitButton.textContent = "Сохранение...";
+        button.textContent = "Сохранение...";
     } else {
-        submitButton.textContent = currentText;
+        button.textContent = currentText;
     }
 
 }
@@ -68,20 +67,23 @@ addCardButton.addEventListener('click', () => {
 //open avatar replacement dialogue
 avatarButton.addEventListener('click', () => {
     formAvatar.disableButton();
-    avatar.open();
+    avatarPopup.open();
 
 })
 
 // form submitting
 const profileSubmitHandler = function(data) {
-    myInfo.setUserInfo(data);
-    myName.textContent = data['username'];
-    myJob.textContent = data['profession'];
-    const currentText = submitButton.textContent;
-    renderLoading(true, currentText);
-    api.profileEdit(data["username"], data["profession"]);
-    renderLoading(false, currentText);
-    popupProfile.close();
+    const currentText = saveProfileButton.textContent;
+    renderLoading(true, saveProfileButton, currentText);
+    api.profileEdit(data["username"], data["profession"])
+        .then((res) => {
+            myInfo.setUserInfo(res);
+            myName.textContent = res.name;
+            myJob.textContent = res.about;
+        })
+        .then(popupProfile.close())
+        .catch(console.error)
+        .finally(renderLoading(false, saveProfileButton, currentText));
 }
 
 //change profile
@@ -93,8 +95,8 @@ const popupCardAdd = new PopupWithForm('.popup_add-card', submitHandlerCard);
 popupCardAdd.setEventListeners();
 
 //replace avatar
-const avatar = new PopupWithForm('.popup_avatar-replace', avatarSubmitHandler);
-avatar.setEventListeners();
+const avatarPopup = new PopupWithForm('.popup_avatar-replace', avatarSubmitHandler);
+avatarPopup.setEventListeners();
 
 
 //deleting card
@@ -102,7 +104,9 @@ avatar.setEventListeners();
 const deleteSubmitHandler = () => {
     const cardForDeletion = deleteCardConfirmation.currentCard;
     return api.deleteCard(cardForDeletion._data._id)
-        .then(cardForDeletion.remove);
+        .then(cardForDeletion.remove)
+        .then(deleteCardConfirmation.close())
+        .catch(console.error);
 }
 
 //delete card confirmation
@@ -130,10 +134,11 @@ function createCard(item) {
                 api.removeLike(item._id) :
                 api.addLike(item._id))
             .then(res => {
-                // card.toggleLike();
-                card.renewLikes(res.likes.length);
-                item.isLiked = !item.isLiked;
-            });
+                    // card.toggleLike();
+                    card.renewLikes(res.likes.length);
+                    item.isLiked = !item.isLiked;
+                })
+                .catch(console.error);
         }
     );
 
@@ -146,32 +151,19 @@ api.myData()
         //он не будет теряться при обновлении страницы. В задании этого не было, но кажется, что это логично
         myInfo.setUserInfo({ name: result.name, about: result.about, avatar: result.avatar });
     })
+    .catch(console.error)
 
-function submitHandlerCard(values) {
-    const currentText = submitButton.textContent;
-    renderLoading(true, currentText);
-    api.addCard(values["placename"], values["link"]).then((res) => {
-        const newCard = createCard({
-            name: values["placename"],
-            link: values["link"],
-            trashIcon: 1,
-            isLiked: 0,
-            likes: [],
-            _id: res._id
-        });
-        elements.prepend(newCard);
-
-    });
-    renderLoading(false, currentText);
-}
 
 
 function avatarSubmitHandler(values) {
-    const currentText = submitButton.textContent;
-    renderLoading(true, currentText);
-    myAvatar.src = values["avatar_link"];
-    api.avatarReplace(values["avatar_link"]);
-    renderLoading(false, currentText);
+    const currentText = avatarReplaceButton.textContent;
+    renderLoading(true, avatarReplaceButton, currentText);
+    api.avatarReplace(values["avatar_link"])
+        .then((res) => myInfo.setUserInfo({ avatar: res.avatar }))
+        .then(avatarPopup.close())
+        .catch(console.error)
+        .finally(renderLoading(false, avatarReplaceButton, currentText))
+
 }
 
 const formNewCard = new FormValidator(
@@ -192,27 +184,8 @@ formProfile.enableValidation();
 formNewCard.enableValidation();
 formAvatar.enableValidation();
 
-function renderCards(initialCards, myId) {
-    const CardList = new Section({
-            items: initialCards,
-            renderer: (items) => {
-                items.forEach(item => {
-                    if (item.owner._id === myId) {
-                        item.trashIcon = 1;
-                    } else { item.trashIcon = 0; }
+let cardList;
 
-                    if (item.likes.filter(user => user._id === myId).length != 0) {
-                        item.isLiked = 1;
-                    }
-
-                    const cardElement = createCard(item);
-                    CardList.addItem(cardElement);
-                })
-            }
-        },
-        '.elements');
-    CardList.renderItems();
-}
 Promise.all([
         api.myData(),
         api.getInitialCards(),
@@ -223,6 +196,44 @@ Promise.all([
             about: myData.about,
             userPic: myData.avatar
         });
-        renderCards(initialCards, myData._id);
+        cardList = new Section({
+                items: initialCards,
+                renderer: item => {
 
+                    if (item.owner._id === myData._id) {
+                        item.trashIcon = 1;
+                    } else { item.trashIcon = 0; }
+
+                    if (item.likes.filter(user => user._id === myData._id).length != 0) {
+                        item.isLiked = 1;
+                    }
+
+                    const cardElement = createCard(item);
+                    cardList.addItem(cardElement);
+                }
+
+            },
+            '.elements');
+        cardList.renderItems();
     }).catch(console.error);
+
+function submitHandlerCard(values) {
+    const currentText = createCardButton.textContent;
+    renderLoading(true, createCardButton, currentText);
+    api.addCard(values["placename"], values["link"])
+        .then((res) => {
+            const newCard = createCard({
+                name: values["placename"],
+                link: values["link"],
+                trashIcon: 1,
+                isLiked: 0,
+                likes: [],
+                _id: res._id
+            });
+            elements.prepend(newCard);
+
+        })
+        .then(popupCardAdd.close())
+        .finally(renderLoading(false, createCardButton, currentText));
+
+}

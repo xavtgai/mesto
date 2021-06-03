@@ -19,7 +19,13 @@ export const submitButton = document.querySelector('.popup__save');
 export const likeButton = document.querySelector('.element__like');
 export const myName = document.querySelector('.profile__title');
 export const myJob = document.querySelector('.profile__subtitle');
-export const myAvatar = document.querySelector('.profile__avatar');
+export const saveProfileButton = document.getElementById('saveProfileButton');
+export const createCardButton = document.getElementById('createCardButton');
+export const deleteCardButton = document.getElementById('deleteCardButton');
+export const avatarReplaceButton = document.getElementById('avatarReplaceButton');
+
+
+// export const myAvatar = document.querySelector('.profile__avatar');
 
 
 export const initialCards = [{
