@@ -78,12 +78,10 @@ const profileSubmitHandler = function(data) {
     api.profileEdit(data["username"], data["profession"])
         .then((res) => {
             myInfo.setUserInfo(res);
-            myName.textContent = res.name;
-            myJob.textContent = res.about;
         })
-        .then(popupProfile.close())
+        .then(() => popupProfile.close())
         .catch(console.error)
-        .finally(renderLoading(false, saveProfileButton, currentText));
+        .finally(() => renderLoading(false, saveProfileButton, currentText));
 }
 
 //change profile
@@ -105,7 +103,7 @@ const deleteSubmitHandler = () => {
     const cardForDeletion = deleteCardConfirmation.currentCard;
     return api.deleteCard(cardForDeletion._data._id)
         .then(cardForDeletion.remove)
-        .then(deleteCardConfirmation.close())
+        .then(() => deleteCardConfirmation.close())
         .catch(console.error);
 }
 
@@ -134,7 +132,7 @@ function createCard(item) {
                 api.removeLike(item._id) :
                 api.addLike(item._id))
             .then(res => {
-                    // card.toggleLike();
+
                     card.renewLikes(res.likes.length);
                     item.isLiked = !item.isLiked;
                 })
@@ -145,24 +143,14 @@ function createCard(item) {
     return card.generateCard();
 }
 
-api.myData()
-    .then((result) => {
-        //после редактирования данных будем обновлять текст в профиле с сервера и 
-        //он не будет теряться при обновлении страницы. В задании этого не было, но кажется, что это логично
-        myInfo.setUserInfo({ name: result.name, about: result.about, avatar: result.avatar });
-    })
-    .catch(console.error)
-
-
-
 function avatarSubmitHandler(values) {
     const currentText = avatarReplaceButton.textContent;
     renderLoading(true, avatarReplaceButton, currentText);
     api.avatarReplace(values["avatar_link"])
         .then((res) => myInfo.setUserInfo({ avatar: res.avatar }))
-        .then(avatarPopup.close())
+        .then(() => avatarPopup.close())
         .catch(console.error)
-        .finally(renderLoading(false, avatarReplaceButton, currentText))
+        .finally(() => renderLoading(false, avatarReplaceButton, currentText))
 
 }
 
@@ -194,7 +182,7 @@ Promise.all([
         myInfo.setUserInfo({
             name: myData.name,
             about: myData.about,
-            userPic: myData.avatar
+            avatar: myData.avatar
         });
         cardList = new Section({
                 items: initialCards,
@@ -230,10 +218,10 @@ function submitHandlerCard(values) {
                 likes: [],
                 _id: res._id
             });
-            elements.prepend(newCard);
+            cardList.addItem(newCard);
 
         })
-        .then(popupCardAdd.close())
-        .finally(renderLoading(false, createCardButton, currentText));
+        .then(() => popupCardAdd.close())
+        .finally(() => renderLoading(false, createCardButton, currentText));
 
 }
